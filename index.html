@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akhil Kumar Reddy Cheekolu | Senior Software Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237c6fff'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #070a12;
+      --card-bg: #0f1523;
+      --card-border: #1b2438;
+      --accent: #7c6fff;
+      --accent-glow: rgba(124, 111, 255, 0.35);
+      --cyan: #38bdf8;
+      --emerald: #10b981;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Canvas */
+    canvas#bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(7, 10, 18, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(124, 111, 255, 0.12);
+    }
+
+    .brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 0.5rem 1.2rem;
+      background: rgba(124, 111, 255, 0.15);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      color: var(--text) !important;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 6rem;
+      padding-bottom: 4rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 0.9rem;
+      background: rgba(124, 111, 255, 0.1);
+      border: 1px solid rgba(124, 111, 255, 0.25);
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #a594ff;
+      margin-bottom: 1.5rem;
+      width: fit-content;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--emerald);
+    }
+
+    h1.hero-title {
+      font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1.hero-title .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, #a594ff 70%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      color: var(--text-muted);
+      max-width: 780px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+
+    .btn {
+      padding: 0.85rem 1.8rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid transparent;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: #8b7fff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(124, 111, 255, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #334155;
+      transform: translateY(-2px);
+    }
+
+    /* Metric Counters */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .metric-card {
+      background: rgba(15, 21, 35, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .metric-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 6rem 0;
+    }
+
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Experience */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .exp-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(124, 111, 255, 0.4);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .exp-role {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .exp-company {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .project-block {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .project-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-bullets {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .exp-bullets li {
+      position: relative;
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .exp-bullets li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .proj-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .proj-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .proj-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+    }
+
+    .proj-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .proj-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.55;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .proj-links {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .link-btn {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      transition: background 0.2s ease;
+    }
+
+    .link-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .link-btn-accent {
+      background: rgba(124, 111, 255, 0.2);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .link-btn-accent:hover {
+      background: var(--accent);
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .skill-cat {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .skill-cat-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-cat-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(124, 111, 255, 0.08);
+      border: 1px solid rgba(124, 111, 255, 0.18);
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* Contact Footer */
+    #contact {
+      text-align: center;
+      padding: 8rem 0 5rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .contact-title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .contact-lead {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 0;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.25rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle Background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="#" class="brand">AKHIL<span>.DEV</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:akhiljagaur22@gmail.com" class="nav-cta">Get in Touch</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="container" id="about">
+    <section id="hero">
+      <div class="eyebrow">
+        <span class="status-dot"></span>
+        Senior Software Engineer · Distributed Systems & Payments
+      </div>
+
+      <h1 class="hero-title">
+        Building Systems That<br>
+        <span class="gradient-text">Scale to 12,000+ TPS.</span>
+      </h1>
+
+      <p class="hero-lead">
+        I'm <strong>Akhil Kumar Reddy Cheekolu</strong>. I specialize in architecting high-throughput payment gateways, event-driven microservices, and Apache Spark big data pipelines in Java, Spring Boot, Kafka, and Kubernetes.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">
+          Explore Code & Projects →
+        </a>
+        <a href="https://github.com/Akhilreddy22" target="_blank" class="btn btn-secondary">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub Profile
+        </a>
+      </div>
+
+      <!-- Live Impact Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-num">12K+</div>
+          <div class="metric-label">TPS at Sub-80ms Latency</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">$20M+</div>
+          <div class="metric-label">Cross-Border GMV Enabled</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">15K+</div>
+          <div class="metric-label">Automated Merchant Onboardings</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">99.98%</div>
+          <div class="metric-label">Banking Reconciliation Uptime</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Experience Section -->
+  <div class="container" id="experience">
+    <section>
+      <div class="section-eyebrow">// Career Journey</div>
+      <h2 class="section-title">Production Experience</h2>
+
+      <div class="timeline">
+        <!-- Walmart -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Senior Software Engineer</div>
+              <div class="exp-company">Walmart Global Tech</div>
+            </div>
+            <div class="exp-date">04/2023 – Present</div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-title">Project 1: Cross-Border Trade (CBT) & Remote Fulfillment Platform</div>
+            <ul class="exp-bullets">
+              <li>Engineered seller onboarding architecture that expanded Walmart's marketplace into Canada & Mexico; fulfillment services showcased at the 2025 and 2026 Seller Summits.</li>
+              <li>Owned end-to-end Apache Spark batch pipelines and merchant onboarding APIs; implemented rule validation engines (cancel rate, on-time delivery, compliance) served via GraphQL and Spring Boot over Kafka.</li>
+              <li><strong>Impact:</strong> Automated qualification of 15,000+ merchants, accelerated onboarding by 68%, enabling $20M+ GMV (FY25–FY26).</li>
+            </ul>
+          </div>
+
+          <div class="project-block">
+            <div class="project-title">Project 2: Enterprise Payments & Transaction Settlement Platform</div>
+            <ul class="exp-bullets">
+              <li>Architected high-availability payment gateway services, idempotent settlement layers, and multi-currency transaction verification.</li>
+              <li>Eliminated double settlements through distributed locking and tokenized validation running on Kubernetes with Kafka, PostgreSQL, and Azure Cosmos DB.</li>
+              <li><strong>Impact:</strong> Handled 12,000+ TPS at sub-80ms latency with 24% fewer payment failures, securing ~$8.5M in annual checkout value.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LTI -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Software Engineer</div>
+              <div class="exp-company">L&T Infotech (LTI)</div>
+            </div>
+            <div class="exp-date">01/2020 – 01/2022</div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-title">Enterprise Banking Transaction Engine & Data Modernization</div>
+            <ul class="exp-bullets">
+              <li>Modernized legacy banking pipelines into event-driven Java/Spring Boot microservices for real-time account validation and ledger reconciliation.</li>
+              <li>Built REST APIs, asynchronous batch processing jobs, and automated database migrations with 88% test coverage.</li>
+              <li><strong>Impact:</strong> Reduced daily ledger reconciliation window from 4.5 to 2.5 hours (44% reduction) with 99.98% pipeline uptime.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Featured Projects -->
+  <div class="container" id="projects">
+    <section>
+      <div class="section-eyebrow">// Open Source & Systems</div>
+      <h2 class="section-title">Featured Projects</h2>
+
+      <div class="projects-grid">
+        <!-- Project 1: PySpark Airflow -->
+        <div class="proj-card">
+          <div>
+            <div class="proj-badge">Data Engineering · Lakehouse</div>
+            <h3 class="proj-name">Customer 360 PySpark & Airflow ETL</h3>
+            <p class="proj-desc">
+              Production data pipeline orchestrating automated daily ingestion of high-frequency clickstream and transaction logs. Uses PySpark for sessionization, RFM customer segmentation, pre-write data quality assertions, and writes partitioned Snappy Parquet files.
+            </p>
+            <div class="tag-list">
+              <span class="tag">PySpark</span>
+              <span class="tag">Apache Airflow</span>
+              <span class="tag">Parquet</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/Akhilreddy22/spark-airflow-etl-pipeline" target="_blank" class="link-btn link-btn-accent">GitHub Repository →</a>
+          </div>
+        </div>
+
+        <!-- Project 2: Flight Tracker -->
+        <div class="proj-card">
+          <div>
+            <div class="proj-badge">Full-Stack · Distributed Backend</div>
+            <h3 class="proj-name">Flight Lookup & Time Zone Tracker</h3>
+            <p class="proj-desc">
+              Java Spring Boot 3 web application with REST mock API endpoint and modern responsive client. Provides start/end airport locations, terminal/gate routing, actual vs scheduled times, and exact UTC time zone difference calculations.
+            </p>
+            <div class="tag-list">
+              <span class="tag">Java 21</span>
+              <span class="tag">Spring Boot 3</span>
+              <span class="tag">REST API</span>
+              <span class="tag">Tailwind CSS</span>
+              <span class="tag">Maven</span>
+            </div>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/Akhilreddy22/flight-tracker-setup-" target="_blank" class="link-btn link-btn-accent">GitHub Repository →</a>
+          </div>
+        </div>
+
+        <!-- Project 3: Galaxy Raider -->
+        <div class="proj-card">
+          <div>
+            <div class="proj-badge">Browser Game · Web Audio API</div>
+            <h3 class="proj-name">Galaxy Raider Arcade Game</h3>
+            <p class="proj-desc">
+              Fast-paced retro synthwave space shooter running at 60 FPS on HTML5 Canvas. Features procedural 8-bit sound synthesis via the Web Audio API, particle explosion physics, multi-weapon ladder, and boss battle waves.
+            </p>
+            <div class="tag-list">
+              <span class="tag">HTML5 Canvas</span>
+              <span class="tag">Web Audio API</span>
+              <span class="tag">JavaScript ES6</span>
+              <span class="tag">GitHub Pages</span>
+            </div>
+          </div>
+          <div class="proj-links">
+            <a href="https://akhilreddy22.github.io/galaxy-raider-arcade/" target="_blank" class="link-btn link-btn-accent">Play Live Game 🚀</a>
+            <a href="https://github.com/Akhilreddy22/galaxy-raider-arcade" target="_blank" class="link-btn">Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Technical Skills -->
+  <div class="container" id="skills">
+    <section>
+      <div class="section-eyebrow">// Technical Matrix</div>
+      <h2 class="section-title">Skills & Technologies</h2>
+
+      <div class="skills-grid">
+        <div class="skill-cat">
+          <div class="skill-cat-title">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            Languages
+          </div>
+          <div class="skill-pills">
+            <span class="pill">Java</span>
+            <span class="pill">Python</span>
+            <span class="pill">SQL</span>
+            <span class="pill">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="skill-cat-title">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            Distributed Systems
+          </div>
+          <div class="skill-pills">
+            <span class="pill">Apache Kafka</span>
+            <span class="pill">Apache Spark</span>
+            <span class="pill">Microservices</span>
+            <span class="pill">Idempotency</span>
+            <span class="pill">Distributed Locking</span>
+            <span class="pill">REST APIs</span>
+            <span class="pill">GraphQL</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="skill-cat-title">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+            Cloud & Infrastructure
+          </div>
+          <div class="skill-pills">
+            <span class="pill">Microsoft Azure</span>
+            <span class="pill">Kubernetes (K8s)</span>
+            <span class="pill">Docker</span>
+            <span class="pill">Jenkins CI/CD</span>
+            <span class="pill">Git</span>
+            <span class="pill">Maven</span>
+          </div>
+        </div>
+
+        <div class="skill-cat">
+          <div class="skill-cat-title">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+            Data & Storage
+          </div>
+          <div class="skill-pills">
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">Azure Cosmos DB</span>
+            <span class="pill">Redis</span>
+            <span class="pill">Oracle SQL</span>
+            <span class="pill">AzureSQL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Education -->
+  <div class="container">
+    <section style="padding-top: 0;">
+      <div class="section-eyebrow">// Academic Background</div>
+      <h2 class="section-title">Education</h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+        <div class="exp-card">
+          <div style="font-weight: 700; font-size: 1.15rem; margin-bottom: 0.25rem;">Master of Science in Computer Science</div>
+          <div style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Wichita State University</div>
+          <div class="exp-date" style="display: inline-block;">01/2022 – 08/2023</div>
+        </div>
+
+        <div class="exp-card">
+          <div style="font-weight: 700; font-size: 1.15rem; margin-bottom: 0.25rem;">Bachelor of Technology in ECE</div>
+          <div style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Sree Venkateswara College of Engineering</div>
+          <div class="exp-date" style="display: inline-block;">2016 – 2020</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Contact -->
+  <div class="container" id="contact">
+    <section>
+      <div class="section-eyebrow">// Get In Touch</div>
+      <h2 class="contact-title">Let's Build Something High-Scale.</h2>
+      <p class="contact-lead">
+        Always open to discussing distributed systems architectures, high-volume payment engineering, or technical leadership roles.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="mailto:akhiljagaur22@gmail.com" class="btn btn-primary">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          akhiljagaur22@gmail.com
+        </a>
+        <a href="tel:3163767557" class="btn btn-secondary">
+          (316) 376-7557
+        </a>
+        <a href="https://github.com/Akhilreddy22" target="_blank" class="btn btn-secondary">
+          GitHub Profile
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Akhil Kumar Reddy Cheekolu. Designed with precision & scale.</p>
+  </footer>
+
+  <!-- Background Particle Animation Script -->
+  <script>
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    for (let i = 0; i < 70; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 1.5 + 0.5,
+        alpha: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(124, 111, 255, ${p.alpha})`;
+        ctx.fill();
+
+        // Connect nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(124, 111, 255, ${0.12 * (1 - dist / 110)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
