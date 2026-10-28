@@ -538,6 +538,138 @@
         display: none;
       }
     }
+
+    /* Certifications Grid */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .cert-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(124, 111, 255, 0.4);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .cert-card:hover::before {
+      opacity: 1;
+    }
+
+    .cert-img-wrap {
+      width: 110px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .cert-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .cert-card:hover .cert-img {
+      transform: scale(1.08);
+    }
+
+    .cert-issuer {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .issuer-mongodb {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .issuer-azure {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+    }
+
+    .cert-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.35;
+    }
+
+    .cert-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .cert-date {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .cert-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(124, 111, 255, 0.08);
+      border: 1px solid rgba(124, 111, 255, 0.25);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .cert-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
   </style>
 </head>
 <body>
@@ -553,6 +685,7 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="mailto:akhiljagaur22@gmail.com" class="nav-cta">Get in Touch</a>
@@ -802,6 +935,92 @@
             <span class="pill">Oracle SQL</span>
             <span class="pill">AzureSQL</span>
           </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- Certifications & Credly Badges -->
+  <div class="container" id="certifications">
+    <section>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+        <div>
+          <div class="section-eyebrow">// Verified Credentials</div>
+          <h2 class="section-title" style="margin-bottom: 0.5rem;">Certifications & Badges</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">
+            Official digital credentials issued via Credly verifying technical expertise across Retrieval-Augmented Generation (RAG), cloud infrastructure, and database optimization.
+          </p>
+        </div>
+        <a href="https://www.credly.com/users/akhil-kumar-cheekolu/badges" target="_blank" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          View Credly Profile
+        </a>
+      </div>
+
+      <div class="cert-grid">
+        <!-- Badge 1: Building RAG Apps Using MongoDB -->
+        <div class="cert-card">
+          <div class="cert-img-wrap">
+            <img class="cert-img" src="https://images.credly.com/images/2aff887d-ee1e-479f-b26f-dcb20d647bd6/blob" alt="Building RAG Apps Using MongoDB" loading="lazy">
+          </div>
+          <span class="cert-issuer issuer-mongodb">MongoDB</span>
+          <h3 class="cert-title">Building RAG Apps Using MongoDB</h3>
+          <div class="cert-date">Issued Oct 2026 · Credly Verified</div>
+          <p class="cert-desc">
+            Validates expertise in designing and engineering Retrieval-Augmented Generation (RAG) pipelines, semantic search architectures, vector embeddings, and LLM context retrieval using MongoDB.
+          </p>
+          <a href="https://www.credly.com/badges/66165f9b-9cfc-4f39-bbc3-9a555955db09" target="_blank" class="cert-btn">
+            Verify Badge ↗
+          </a>
+        </div>
+
+        <!-- Badge 2: CRUD Operations in MongoDB -->
+        <div class="cert-card">
+          <div class="cert-img-wrap">
+            <img class="cert-img" src="https://images.credly.com/images/d8f7a9d6-dad9-40cc-b389-a343d2d72a9e/blob" alt="CRUD Operations in MongoDB" loading="lazy">
+          </div>
+          <span class="cert-issuer issuer-mongodb">MongoDB</span>
+          <h3 class="cert-title">CRUD Operations in MongoDB</h3>
+          <div class="cert-date">Issued Oct 2026 · Credly Verified</div>
+          <p class="cert-desc">
+            Demonstrates proficiency in document modeling, schema design, high-volume CRUD queries, aggregation pipelines, and atomic transaction guarantees for mission-critical datasets.
+          </p>
+          <a href="https://www.credly.com/badges/e9c491ea-c9ce-455b-9108-2c390152d55f" target="_blank" class="cert-btn">
+            Verify Badge ↗
+          </a>
+        </div>
+
+        <!-- Badge 3: MongoDB Indexing Design Fundamentals -->
+        <div class="cert-card">
+          <div class="cert-img-wrap">
+            <img class="cert-img" src="https://images.credly.com/images/27213be6-415d-411f-a69a-0171ca2c89f5/blob" alt="MongoDB Indexing Design Fundamentals" loading="lazy">
+          </div>
+          <span class="cert-issuer issuer-mongodb">MongoDB</span>
+          <h3 class="cert-title">MongoDB Indexing Design Fundamentals</h3>
+          <div class="cert-date">Issued Oct 2026 · Credly Verified</div>
+          <p class="cert-desc">
+            Validates deep knowledge in compound indexing strategies, query execution plan analysis, index maintenance, and query latency minimization for high-throughput transactional systems.
+          </p>
+          <a href="https://www.credly.com/badges/a6b93023-b088-455f-a4b2-d3163318d979" target="_blank" class="cert-btn">
+            Verify Badge ↗
+          </a>
+        </div>
+
+        <!-- Badge 4: Microsoft Certified Azure Fundamentals -->
+        <div class="cert-card">
+          <div class="cert-img-wrap">
+            <img class="cert-img" src="https://images.credly.com/images/be8fcaeb-c769-4858-b567-ffaaa73ce8cf/image.png" alt="Microsoft Certified: Azure Fundamentals" loading="lazy">
+          </div>
+          <span class="cert-issuer issuer-azure">Microsoft Azure</span>
+          <h3 class="cert-title">Microsoft Certified: Azure Fundamentals</h3>
+          <div class="cert-date">Issued Jul 2021 · AZ-900</div>
+          <p class="cert-desc">
+            Validates core foundational knowledge of Microsoft Azure cloud architecture, high-availability virtual networks, cloud storage governance, identity security, and cost management.
+          </p>
+          <a href="https://www.credly.com/badges/957d906c-4aae-4df2-bdbb-75a7b41427cc" target="_blank" class="cert-btn">
+            Verify Badge ↗
+          </a>
         </div>
       </div>
     </section>
